@@ -1,9 +1,13 @@
 package streams;
 
+import fluentAPI.model.Person;
 import streams.model.Human;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.partitioningBy;
 
 // Code from https://github.com/vfarcic/java-8-exercises
@@ -23,8 +27,7 @@ public class Task {
     }
 
     public static List<String> toUpperCase(List<String> collection) {
-        // ToDo
-        return null;
+        return collection.stream().map(element -> element.toUpperCase()).collect(Collectors.toList());
     }
 
     public static List<String> transformOldJava(List<String> collection) {
@@ -39,7 +42,7 @@ public class Task {
 
     public static List<String> transform(List<String> collection) {
         // ToDo
-        return null;
+        return collection.stream().filter(s -> s.length()<4).collect(Collectors.toList());
     }
 
     /**
@@ -55,7 +58,9 @@ public class Task {
     }
 
     public static Map<String, Human> createMap(List<Human> collection) {
-        // ToDo
+        collection
+                .stream()
+                .collect(Collectors.toMap(Human::getName, Function.identity()));
         return null;
     }
 
@@ -71,8 +76,7 @@ public class Task {
     }
 
     public static Human getOldestPerson(List<Human> people) {
-        // ToDo
-        return null;
+        return people.stream().max(Comparator.comparing(Human::getAge)).get();
     }
 
     /**
@@ -92,8 +96,8 @@ public class Task {
 
     // use partitionBy
     public static Map<Boolean, List<Human>> partitionAdults(List<Human> people) {
-        // ToDo
-        return null;
+        Map<Boolean, List<Human>> collect = people.stream().collect(groupingBy(human -> human.getAge() >= 18));
+        return collect;
     }
 
     public static List<String> transformListOldJava(List<List<String>> collection) {
@@ -109,6 +113,6 @@ public class Task {
     //use flatMap
     public static List<String> transformList(List<List<String>> collection) {
         // ToDo
-        return null;
+        return collection.stream().flatMap(Collection::stream).collect(Collectors.toList());
     }
 }
